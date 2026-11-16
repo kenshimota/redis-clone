@@ -1,40 +1,65 @@
 [![progress-banner](https://backend.codecrafters.io/progress/redis/2aa38105-f82b-4671-9a32-e57d9634968f)](https://app.codecrafters.io/users/kenshimota?r=2qF)
 
-This is a starting point for Python solutions to the
+# Build Your Own Redis (Python)
+
+A toy Redis clone written in Python, built as part of the
 ["Build Your Own Redis" Challenge](https://codecrafters.io/challenges/redis).
 
-In this challenge, you'll build a toy Redis clone that's capable of handling
-basic commands like `PING`, `SET` and `GET`. Along the way we'll learn about
-event loops, the Redis protocol and more.
+The goal is to progressively implement a Redis-compatible server that handles
+commands like `PING`, `SET` and `GET`, while learning about event loops, the
+Redis protocol (RESP) and more.
 
 **Note**: If you're viewing this repo on GitHub, head over to
 [codecrafters.io](https://codecrafters.io) to try the challenge.
 
-# Passing the first stage
+## Requirements
 
-The entry point for your Redis implementation is in `app/main.py`. Study and
-uncomment the relevant code, then run the command below to execute the tests on
-our servers:
+- [Python 3.14+](https://www.python.org/) (see `pyproject.toml` and
+  `codecrafters.yml`)
+- [uv](https://docs.astral.sh/uv/) for dependency management
+
+## Project structure
+
+```
+.
+├── app/
+│   └── main.py          # Entry point: Redis server implementation
+├── .codecrafters/       # CodeCrafters build/run scripts
+├── your_program.sh      # Helper script to run the server locally
+├── codecrafters.yml     # CodeCrafters configuration (Python version, debug)
+└── pyproject.toml       # Project metadata and dependencies
+```
+
+## Running locally
+
+Start the server with:
+
+```sh
+./your_program.sh
+```
+
+The server listens on `localhost:6379`, the default Redis port. You can interact
+with it using `redis-cli`:
+
+```sh
+redis-cli ping
+# PONG
+```
+
+## Submitting to CodeCrafters
+
+The entry point for the implementation is `app/main.py`. Once you've made
+changes, run the tests on CodeCrafters' servers with:
 
 ```sh
 codecrafters submit
 ```
 
-That's all!
+Test output will be streamed to your terminal.
 
-# Stage 2 & beyond
+## Troubleshooting
 
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `uv` installed locally
-1. Run `./your_program.sh` to run your Redis server, which is implemented in
-   `app/main.py`.
-1. Run `codecrafters submit` to submit your solution to CodeCrafters. Test
-   output will be streamed to your terminal.
-
-# Troubleshooting
-
-## module `socket` has no attribute `create_server`
+### module `socket` has no attribute `create_server`
 
 When running your server locally, you might see an error like this:
 
@@ -54,7 +79,7 @@ AttributeError: module 'socket' has no attribute 'create_server'
 This is because `socket.create_server` was introduced in Python 3.8, and you
 might be running an older version.
 
-You can fix this by installing Python 3.8 locally and using that.
+You can fix this by installing Python 3.8 (or newer) locally and using that.
 
 If you'd like to use a different version of Python, change the `buildpack` value
 in `codecrafters.yml`.
