@@ -1,4 +1,6 @@
-import socket  # noqa: F401
+import socket
+
+from app.inputs.read_input_redis import read_input_redis
 
 
 def main():
@@ -9,7 +11,7 @@ def main():
     #
     server_socket = socket.create_server(("localhost", 6379), reuse_port=True)
     connect, address = server_socket.accept()  # wait for client
-    connect.sendall(b"+PONG\r\n")
+    read_input_redis(connect)
 
 
 if __name__ == "__main__":
