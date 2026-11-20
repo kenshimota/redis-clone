@@ -1,18 +1,14 @@
-import socket
+import asyncio
 
 from app.inputs.read_input_redis import read_input_redis
 
 
-def main():
-    # You can use print statements as follows for debugging, they'll be visible when running tests.
+async def main():
     print("Logs from your program will appear here!")
-
-    # Uncomment the code below to pass the first stage
-    #
-    server_socket = socket.create_server(("localhost", 6379), reuse_port=True)
-    connect, address = server_socket.accept()  # wait for client
-    read_input_redis(connect)
+    server = await asyncio.start_server(read_input_redis, "0.0.0.0", 6379)
+    async with server:
+        await server.serve_forever()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

@@ -1,8 +1,14 @@
-from socket import socket
+import asyncio
 
-def read_input_redis(connection:  socket) -> None:
-    while True:
-        data = connection.recv(1024)
-        if not data:
-            break
-        connection.sendall(b"+PONG\r\n")
+async def read_input_redis(reader, writer) -> None:
+    try:
+        while True:
+            data = await reader.read(1024)
+            if not data:
+                break
+            writer.write(b"+PONG\r\n")
+            await writer.drain()
+    finally:
+        writer.close()
+        await writer.wait_closed()
+
