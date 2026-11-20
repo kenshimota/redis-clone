@@ -1,6 +1,6 @@
 import asyncio
 
-async def read_input_redis(reader, writer) -> None:
+async def handle_client(reader, writer) -> None:
     try:
         while True:
             data = await reader.read(1024)
